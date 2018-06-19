@@ -5,11 +5,11 @@ Our implementation is based on the Tensorflow library in python.
 
 ## Quick Links
 
-- [Requirements](#Requirements)
-- [Model](#Model)
-- [Data](#Data)
-- [Usage](#Usage)
-- [Performance](#Performance)
+- [Requirements](#requirements)
+- [Model](#model)
+- [Data](#data)
+- [Usage](#usage)
+- [Performance](#performance)
 
 ## Requirements
 One GPU device is required for execution of this project codes.  
@@ -22,8 +22,8 @@ MIT License would be fine but it seems like we need to look a little bit more on
 Please refer <a href=./License-thirdparty.txt>License-thirdparty.txt</a> file  
 
 ## Model
-[**LEFT**]Character level word embedding using CNN and overview of Bidirectional LSTM with Conditional Random Field (BiLSTM-CRF).  
-[**RIGHT**]Structure of CollaboNet when Gene model act as a role of target model. Diamond shaped CRF stands for CRF decoding layer. Arrowed lines show the flow of data when target model is under training.
+**[LEFT]** Character level word embedding using CNN and overview of Bidirectional LSTM with Conditional Random Field (BiLSTM-CRF).  
+**[RIGHT]** Structure of CollaboNet when Gene model act as a role of target model. Diamond shaped CRF stands for CRF decoding layer. Arrowed lines show the flow of data when target model is under training.
 Dashed lines are not connected when is under training but scheduled to be connected as a consequence of target model change.  
 ![Model](https://s3-us-west-2.amazonaws.com/collabonet/model.jpg)
 
