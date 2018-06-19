@@ -46,12 +46,17 @@ The details of each dataset are showed below:
 |     BC2GM (Akhondi et al., 2014)    | Gene/Proteins |    20,510    |      24,583     | 20,000 sentences |
 
 We used preprocessing with these datasets and made them into pickle data.  
-Pickle data are publicly available in [data folder](./data/), and we recommend downloading the datasets to run our code.  
+Pickle data are publicly available in [download.sh](./download.sh), and we recommend downloading the datasets to run our code.  
 
 ### Pre-trained Embedding Data
-We used pre-trained word embeddings from [Pyysalo et al.](http://bio.nlplab.org/) which is trained on PubMed, PubMed Central(PMC) and Wikipedia text. Because the embedding file is too large, we used shrinked dataset available in [wordvec folder](./wordvec).  
+We used pre-trained word embeddings from [Pyysalo et al.](http://bio.nlplab.org/) which is trained on PubMed, PubMed Central(PMC) and Wikipedia text. Because the embedding file is too large, we used shrinked dataset available in [download.sh](./download.sh).  
 
 ## Usage
+### Download Data
+```
+bash download.sh
+```
+
 ### Single Task Model [STM] (6 datasets)
 ```
 python run.py --ncbi --jnlpba --bc5_chem --bc5_disease --bc4 --bc2 --epoch 50 --lr_pump --lr_decay 0.05
@@ -64,6 +69,7 @@ __You should make pre-trained model with STM before run CollaboNet.__
 python run.py --ncbi --jnlpba --bc5_chem --bc5_disease --bc4 --bc2 --epoch 30 --lr_pump --lr_decay 0.05 --pretrained STM_MODEL_DIRECTORY_NAME(ex 201806210605)
 ```
 You can also refer to [collabo.sh](./collabo.sh) for detailed usage.
+
 
 ## Performance
 ### STM
