@@ -2,6 +2,15 @@
 
 This project provides a neural network(bi-LSTM + CRF) based biomedical Named Entity Recognition.  
 Our implementation is based on the Tensorflow library in python.  
+  
+* __TITLE__  :  Collaborating different entity types for biomedical Named Entity Recognition
+* __AUTHOR__ :  Wonjin Yoon<sup>1!</sup>, Chan Ho So<sup>2!</sup>, Jinhyuk Lee<sup>1</sup> and Jaewoo Kang<sup>1\*</sup>
+    * __Author details__  
+    <sup>\*</sup> Correspondence : kangj@korea.ac.kr  
+    <sup>1</sup> Department of Computer Science and Engineering, Korea University  
+    <sup>2</sup> Interdisciplinary Graduate Program in Bioinformatics, Korea University  
+    <sup>!</sup> Equal contributor  
+
 
 ## Quick Links
 
