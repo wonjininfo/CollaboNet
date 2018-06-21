@@ -73,7 +73,7 @@ python run.py --ncbi --jnlpba --bc5_chem --bc5_disease --bc4 --bc2 --epoch 50 --
 You can also refer to [stm.sh](./stm.sh) for detailed usage.
 
 ### CollaboNet (6 datasets)
-__You should make pre-trained model with STM before run CollaboNet.__  
+__You should make pre-trained model with STM before running CollaboNet.__  
 ```
 python run.py --ncbi --jnlpba --bc5_chem --bc5_disease --bc4 --bc2 --epoch 30 --lr_pump --lr_decay 0.05 --pretrained STM_MODEL_DIRECTORY_NAME(ex 201806210605)
 ```
