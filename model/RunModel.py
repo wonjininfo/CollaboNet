@@ -146,18 +146,15 @@ class RunModel:
 
         if data == self.m_dev:
             infoschk = sess.run([self.model.infos1_w, self.model.infos2_w, self.model.infos3_w, self.model.infos4_w, self.model.infos5_w])                                                                                   
-            print(infoschk)                                                                                         
             print("Learning Rate : %.4f"%(self.lr))
             self.lr = self.lr*(1-self.args.lr_decay)
             if int(epoch/6)==30 and self.args.lr_pump:
                 self.lr = self.args.lr
         
-        print("With Viterbi [%s] Precision : %.4f | Recall : %.4f | F1: %.4f"%
+        print("[%s] Precision : %.4f | Recall : %.4f | F1: %.4f"%
              (data, prfValResult[0],prfValResult[1],prfValResult[2]))
 
-        prfValWOCRFResult=prf(predictionWOCRFResult,dev_ans,dev_len)
-        print("Without Viter [%s] Precision : %.4f | Recall : %.4f | F1: %.4f"%
-             (data, prfValWOCRFResult[0],prfValWOCRFResult[1],prfValWOCRFResult[2]))
+        prfValWOCRFResult=None
         
         return (predictionResult, prfValResult, prfValWOCRFResult, dev_x, dev_ans, dev_len)
 

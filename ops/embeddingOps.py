@@ -28,7 +28,6 @@ def wiki_loadWordVec(path,vocaPath="wordvec/vocab.txt"):
     vectList=list()
     
     vectList.append(np.array([0]*200)) #pad 
-    print "opening wordvec file from : %s"%path
     with open(path,'rb') as vecFile:
         for line in vecFile:
             vecValRow=line.split()

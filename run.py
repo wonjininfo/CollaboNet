@@ -153,6 +153,7 @@ if __name__ == '__main__':
                         expName=expName, m_name=modelDict[dataSet]['m_name'], m_train=m_train, m_dev=m_dev, m_test=m_test)
 
     with tf.Session(config=gpu_config) as sess:
+	phase = 0
         random.seed(seedV)
         np.random.seed(seedV)
         tf.set_random_seed(seedV)
@@ -161,6 +162,10 @@ if __name__ == '__main__':
         loader = tf.train.Saver(max_to_keep=10000)
         for epoch_idx in range(args.epoch*len(dataNames)):
             dataSet = dataNames[epoch_idx%len(dataNames)]
+	    if epoch_idx%len(dataNames)==0:
+		if args.pretrained != 0:
+		    phase += 1
+		print("[%d phase]"%(phase))
             m_name = modelDict[dataSet]['m_name']
             if modelDict[dataSet]['early_stop'] and args.pretrained == 0:
                 continue
@@ -211,14 +216,13 @@ if __name__ == '__main__':
                             intOuts[m_dev].append(modelDict[d_sub]['runner'].info1epoch(m_dev, modelDict[dataSet]['runner'], sess))
                             intOuts[m_test].append(modelDict[d_sub]['runner'].info1epoch(m_test, modelDict[dataSet]['runner'], sess))
                     
-                print("load model trainded by "+dataSet)
                 loadpath = './modelSave/'+expName+'/'+dataSet+'/'
                 loader.restore(sess, tf.train.latest_checkpoint(loadpath))
             
             (l, sl, tra, trsPara) = modelDict[dataSet]['runner'].train1epoch(
                                                                 sess, batch_idx, infoInput=intOuts, tbWriter=tbWriter)
             
-            print("== Epoch:%4d == | time : %d Min | \n trainloss: %.6f\t%.3f"%(epoch_idx, (time.time()-startTime)/60, l, sl))
+            print("== Epoch:%4d == | train time : %d Min | \n train loss: %.6f"%(epoch_idx, (time.time()-startTime)/60, l))
             modelDict[dataSet]['lossList'].append(l)
 
             (predictionResult, prfValResult, prfValWOCRFResult, 
@@ -237,7 +241,6 @@ if __name__ == '__main__':
                 saver.save(sess, './modelSave/'+expName+'/'+dataSet+'/bestModel/modelSaved')
                 pickle.dump(modelDict[dataSet]['maxF1idx'], open('./modelSave/'+expName+'/'+dataSet+'/bestModel/maxF1idx.pickle','wb'))
                 pickle.dump(modelDict[dataSet]['trs_param'], open('./modelSave/'+expName+'/'+dataSet+'/bestModel/trs_param.pickle','wb'))
-                print("save")
                 if args.pretrained != 0:
                     modelDict[dataSet]['bestInouts'] = intOuts[m_test][:]
             

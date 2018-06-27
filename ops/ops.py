@@ -8,7 +8,7 @@ import csv
 def setExpName(savePath='modelSave/'):
     timeNow=time.strftime("%Y%m%d%H%M")
     timeNow_edited=str(timeNow)
-    print timeNow_edited
+    print(timeNow_edited)
 
     suffix=0
     while 1: # making foldr code : if same name exists -> add [_num]
@@ -105,17 +105,14 @@ def prf_lu(preds, answers, length):
     if found!=0:
         precision=match/float(found)
     else:
-        print 'Found=0 error'
         precision=0
     if answer!=0:
         recall=match/float(answer)
     else:
-        print 'answers=0 error'
         recall=0
     if precision!=0 and answer!=0:
         f1score=2*precision*recall/(precision+recall)
     else:
-        print 'precision=0 error'
         f1score=0
     
     return precision, recall, f1score

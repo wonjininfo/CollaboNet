@@ -27,7 +27,7 @@ numpy 1.14.2
 tensorflow-gpu 1.7.0  
 
 ### License
-MIT License would be fine but it seems like we need to look a little bit more on licenses for other libraries which we used.  
+
 Please refer <a href=./License-thirdparty.txt>License-thirdparty.txt</a> file  
 
 ## Model
@@ -37,12 +37,12 @@ Please refer <a href=./License-thirdparty.txt>License-thirdparty.txt</a> file
 
 ## Data
 ### Train, Test Data
-We used the datasets collected by Crichton et al. \cite{crichton2017neural} for the experiment.  
-The datasets can be downloaded from [here](https://github.com/cambridgeltl/MTL-Bioinformatics-2016).  
+We used the datasets collected by Crichton et al. for the experiment.  
+This datasets by Crichton et al is available [here](https://github.com/cambridgeltl/MTL-Bioinformatics-2016).  
 We found the JNLPBA dataset from Crichton et al. has minor mistake on sentence separation.  
-So we re-generated the dataset from the original data by [Kim et al.](http://www.nactem.ac.uk/tsujii/GENIA/ERtask/shared_task_intro.pdf)   
+So we re-generated the dataset from the original corpus by [Kim et al.](http://www.nactem.ac.uk/tsujii/GENIA/ERtask/shared_task_intro.pdf).  
 
-The details of each dataset are showed below:  
+The details of each dataset is showed below:  
 
 
 |               Corpora               |  Entity type  | No. sentence | No. annotations |     Data Size    |
@@ -54,11 +54,10 @@ The details of each dataset are showed below:
 | BC4CHEMD (Krallinger et al., 2015a) |   Chemicals   |    86,679    |      84,310     | 10,000 abstracts |
 |     BC2GM (Akhondi et al., 2014)    | Gene/Proteins |    20,510    |      24,583     | 20,000 sentences |
 
-We preprocess datasets and made them into tsv files. 
-The tsv files are publicly available in [download.sh](./download.sh), and we recommend downloading the datasets to run our code.  
+The datasets are publicly available in [download.sh](./download.sh), and we recommend downloading the datasets to run our code.  
 
 ### Pre-trained Embedding Data
-We used pre-trained word embeddings from [Pyysalo et al.](http://bio.nlplab.org/) which is trained on PubMed, PubMed Central(PMC) and Wikipedia text. Because the embedding file is too large, we used shrinked dataset available in [download.sh](./download.sh).  
+We used pre-trained word embeddings from [Pyysalo et al.](http://bio.nlplab.org/) which is trained on PubMed, PubMed Central(PMC) and Wikipedia text. It is available in [download.sh](./download.sh) also.  
 
 ## Usage
 ### Download Data
@@ -67,7 +66,7 @@ bash download.sh
 ```
 
 ### Single Task Model [STM] (6 datasets)
-__Phase 0, Preperation phase__  
+__Preperation phase (Phase 0) of CollaboNet__  
 ```
 python run.py --ncbi --jnlpba --bc5_chem --bc5_disease --bc4 --bc2 --epoch 50 --lr_pump --lr_decay 0.05
 ```
@@ -78,7 +77,8 @@ __You should make pre-trained model with STM before running CollaboNet.__
 ```
 python run.py --ncbi --jnlpba --bc5_chem --bc5_disease --bc4 --bc2 --epoch 30 --lr_pump --lr_decay 0.05 --pretrained STM_MODEL_DIRECTORY_NAME(ex 201806210605)
 ```
-You can also refer to [collabo.sh](./collabo.sh) for detailed usage.
+You can find STM_MODEL_DIRECTORY_NAME from ./modelSave folder.  
+You can also refer to [collabo.sh](./collabo.sh) for detailed usage. 
 
 
 ## Performance
