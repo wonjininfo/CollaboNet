@@ -49,6 +49,7 @@ def makeIDTup(name, sentenceTuple, wordset, wordsetTD, charset, word2ID, ID2word
         if word not in word2ID:
             word2ID[word] = idxcounter + idx
             ID2word[idxcounter+idx] = word
+            idx+=1
 
     idxcounter = len(word2IDTD)
     idx = 0
@@ -56,6 +57,7 @@ def makeIDTup(name, sentenceTuple, wordset, wordsetTD, charset, word2ID, ID2word
         if word not in word2IDTD:
             word2IDTD[word] = idxcounter + idx
             ID2wordTD[idxcounter+idx] = word
+            idx+=1
     
     idxcounter = len(char2ID)
     idx = 0
@@ -63,6 +65,7 @@ def makeIDTup(name, sentenceTuple, wordset, wordsetTD, charset, word2ID, ID2word
         if char not in char2ID:
             char2ID[char] = idxcounter + idx
             ID2char[idxcounter+idx] = char
+            idx+=1
 
     sentenceTupleID = dict()
     sentenceTupleLen = dict()
