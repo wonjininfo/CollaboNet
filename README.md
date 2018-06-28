@@ -27,7 +27,7 @@ numpy 1.14.2
 tensorflow-gpu 1.7.0  
 
 ### License
-
+The code is provided under [MIT license](./LICENSE.md).  
 Please refer <a href=./License-thirdparty.txt>License-thirdparty.txt</a> file  
 
 ## Model
