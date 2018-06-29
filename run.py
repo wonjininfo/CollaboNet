@@ -246,7 +246,6 @@ if __name__ == '__main__':
             
             modelDict[dataSet]['prevF1'] = prfValResult[2]
             modelDict[dataSet]['f1ValList'].append(t_prfValResult[2])
-            modelDict[dataSet]['f1ValWOCRFList'].append(t_prfValWOCRFResult[2])
             predResultSaver[epoch_idx] = t_predictionResult
             saver.save(sess, './modelSave/'+expName+'/'+m_name+'/modelSaved')
             
@@ -299,4 +298,4 @@ if __name__ == '__main__':
             else: tbWriter = None
             
             (t_predictionResult, t_prfValResult, t_prfValWOCRFResult,
-             test_x, test_ans, test_len) = modelDict[dataSet]['runner'].dev1epoch(m_test, trsPara, sess, infoInput=intOuts, epoch=None)
+             test_x, test_ans, test_len) = modelDict[dataSet]['runner'].dev1epoch(m_test, trsPara, sess, infoInput=intOuts, epoch=None, report=True)

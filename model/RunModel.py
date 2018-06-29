@@ -82,7 +82,7 @@ class RunModel:
                                                 feed_dict=feed_dict1)
         return (l, sl, tra, trsPara) # Note the indent. It only gives last batch logit of 1 epoch training
 
-    def dev1epoch(self, data, trsPara, sess, infoInput=None, epoch=None): #data : dev or test?
+    def dev1epoch(self, data, trsPara, sess, infoInput=None, epoch=None, report=False): #data : dev or test?
         predictionResult=list()
         viterbi_scoreList=list()
         predictionWOCRFResult=list()
@@ -150,9 +150,8 @@ class RunModel:
             self.lr = self.lr*(1-self.args.lr_decay)
             if int(epoch/6)==30 and self.args.lr_pump:
                 self.lr = self.args.lr
-        
-        print("[%s] Precision : %.4f | Recall : %.4f | F1: %.4f"%
-             (data, prfValResult[0],prfValResult[1],prfValResult[2]))
+        if report:
+            print("[%s] Precision : %.4f | Recall : %.4f | F1: %.4f"%(data, prfValResult[0],prfValResult[1],prfValResult[2]))
 
         prfValWOCRFResult=None
         
