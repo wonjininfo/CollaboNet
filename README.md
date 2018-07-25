@@ -68,14 +68,14 @@ bash download.sh
 ### Single Task Model [STM] (6 datasets)
 __Preperation phase (Phase 0) of CollaboNet__  
 ```
-python run.py --ncbi --jnlpba --bc5_chem --bc5_disease --bc4 --bc2 --epoch 50 --lr_pump --lr_decay 0.05
+python run.py --ncbi --jnlpba --bc5_chem --bc5_disease --bc4 --bc2 --lr_pump --lr_decay 0.05
 ```
 You can also refer to [stm.sh](./stm.sh) for detailed usage.
 
 ### CollaboNet (6 datasets)
 __You should make pre-trained model with STM before running CollaboNet.__  
 ```
-python run.py --ncbi --jnlpba --bc5_chem --bc5_disease --bc4 --bc2 --epoch 30 --lr_pump --lr_decay 0.05 --pretrained STM_MODEL_DIRECTORY_NAME(ex 201806210605)
+python run.py --ncbi --jnlpba --bc5_chem --bc5_disease --bc4 --bc2 --lr_pump --lr_decay 0.05 --pretrained STM_MODEL_DIRECTORY_NAME(ex 201806210605)
 ```
 You can find STM_MODEL_DIRECTORY_NAME from ./modelSave folder.  
 You can also refer to [collabo.sh](./collabo.sh) for detailed usage. 
@@ -85,9 +85,9 @@ You can also refer to [collabo.sh](./collabo.sh) for detailed usage.
 ### STM
 |           Model          |          | NCBI-disease | JNLPBA | BC5CDR-chem | BC5CDR-disease | BC4CHEMD | BC2GM | Average |
 |:------------------------:|:--------:|:------------:|:------:|:-----------:|:--------------:|:--------:|:-----:|:-------:|
-| Habibi et al. (2017) STM | F1 Score |     84.44    |  77.25 |    90.63    |      83.49     |   86.62  | 77.82 |  83.38  |
+| Habibi et al. (2017) STM | F1 Score |     84.44    |  77.25 |    90.63    |      **83.49**     |   86.62  | 77.82 |  83.38  |
 |  Wang et al. (2018) STM  | F1 Score |     83.92    |  72.17 |    *89.85   |     *82.68     |   **88.75**  | **80.00** |  82.90  |
-|          **Our STM**         | F1 Score |     **85.19**    |  **77.77** |    **92.79**    |      **83.54**     |   88.40  | 79.27 |  **84.49**  |
+|          **Our STM**         | F1 Score |     **84.69**    |  **77.39** |    **92.74**    |      82.61     |   88.40  | 79.27 |  **84.03**  |
 * Scores in the asterisked (\*) cells are re-experimented performances by us, as the scores are not reported in the original papers.   
 * The best scores in these experiments are in bold.  
 
