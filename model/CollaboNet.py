@@ -82,7 +82,7 @@ class Model:
                         h = tf.nn.relu(tf.nn.bias_add(conv, b), name="relu")
                         pooled = tf.nn.max_pool(
                                     h,
-                                    ksize=[1, 1, args.char_maxlen-fs+1, 1],
+                                    ksize=[1, 1, args.char_maxlen-fs+7, 1],
                                     strides=[1, 1, 1, 1],
                                     padding='VALID',
                                     data_format='NHWC',

@@ -124,7 +124,6 @@ if __name__ == '__main__':
                                                      summery=modelDict[dataSet]['summery'],
                                                      scopename=dataSet) #guideeInfo=None cuz in function we define
     dataNames = list()
-    predResultSaver = dict()
     for dataSet in modelDict:
         modelDict[dataSet]['lossList'] = list()
         modelDict[dataSet]['f1ValList'] = list()
@@ -140,7 +139,6 @@ if __name__ == '__main__':
         
         try:
             os.mkdir('./modelSave/'+expName+'/'+modelDict[dataSet]['m_name'])
-            os.mkdir('./modelSave/'+expName+'/'+modelDict[dataSet]['m_name']+'/bestModel')
         except OSError as e:
             if e.errno == errno.EEXIST: # if file exists! Python2.7 doesn't support file exist exception so need to use this
                 print('./modelSave/'+expName+'/'+modelDict[dataSet]['m_name']+' Directory exists! not created.')
@@ -153,7 +151,7 @@ if __name__ == '__main__':
                         expName=expName, m_name=modelDict[dataSet]['m_name'], m_train=m_train, m_dev=m_dev, m_test=m_test)
 
     with tf.Session(config=gpu_config) as sess:
-	phase = 0
+        phase = 0
         random.seed(seedV)
         np.random.seed(seedV)
         tf.set_random_seed(seedV)
@@ -162,12 +160,12 @@ if __name__ == '__main__':
         loader = tf.train.Saver(max_to_keep=10000)
         for epoch_idx in range(args.epoch*len(dataNames)):
             dataSet = dataNames[epoch_idx%len(dataNames)]
-	    if epoch_idx%len(dataNames)==0:
-		if args.pretrained != 0:
-		    phase += 1
-		print("[%d phase]"%(phase))
+            if epoch_idx%len(dataNames)==0:
+                if args.pretrained != 0:
+                    phase += 1
+                print("[%d phase]"%(phase))
             m_name = modelDict[dataSet]['m_name']
-            if modelDict[dataSet]['early_stop'] and args.pretrained == 0:
+            if modelDict[dataSet]['early_stop']:
                 continue
             if modelDict[dataSet]['args'].tensorboard:
                 tbWriter = tf.summary.FileWriter('./modelSave/'+expName+'/'+m_name+'/train', sess.graph)
@@ -180,6 +178,11 @@ if __name__ == '__main__':
             
             if args.pretrained == 0:
                 intOuts = None
+                early_stops = [24,30,30,30,25,25]
+                 
+            if args.pretrained != 0:
+                intOuts = None
+                early_stops = [5,16,23,30,10,16]
             
             if ((epoch_idx / len(dataNames)) == 0) and (args.pretrained != 0) : 
                 intOuts = dict()
@@ -190,14 +193,14 @@ if __name__ == '__main__':
                     if d_sub==dataSet:
                         continue
                     else:
-                        loadpath = './modelSave/'+str(args.pretrained)+'/'+d_sub+'/bestModel/'
+                        loadpath = './modelSave/'+str(args.pretrained)+'/'+d_sub+'/'
                         loader.restore(sess, tf.train.latest_checkpoint(loadpath))
 
                         intOuts[m_train].append(modelDict[d_sub]['runner'].info1epoch(m_train, modelDict[dataSet]['runner'], sess))
                         intOuts[m_dev].append(modelDict[d_sub]['runner'].info1epoch(m_dev, modelDict[dataSet]['runner'], sess))
                         intOuts[m_test].append(modelDict[d_sub]['runner'].info1epoch(m_test, modelDict[dataSet]['runner'], sess))
                 
-                loadpath = './modelSave/'+str(args.pretrained)+'/'+dataSet+'/bestModel/'
+                loadpath = './modelSave/'+str(args.pretrained)+'/'+dataSet+'/'
                 loader.restore(sess, tf.train.latest_checkpoint(loadpath))
             
             elif ((epoch_idx / len(dataNames)) != 0):
@@ -225,35 +228,25 @@ if __name__ == '__main__':
             print("== Epoch:%4d == | train time : %d Min | \n train loss: %.6f"%(epoch_idx, (time.time()-startTime)/60, l))
             modelDict[dataSet]['lossList'].append(l)
 
-            (predictionResult, prfValResult, prfValWOCRFResult, 
-             dev_x, dev_ans, dev_len) = modelDict[dataSet]['runner'].dev1epoch(m_dev, trsPara, sess, infoInput=intOuts, epoch=epoch_idx)
             (t_predictionResult, t_prfValResult, t_prfValWOCRFResult, 
              test_x, test_ans, test_len) = modelDict[dataSet]['runner'].dev1epoch(m_test, trsPara, sess, infoInput=intOuts, epoch=epoch_idx)
 
-            if prfValResult[2] > modelDict[dataSet]['maxF1']:
-                modelDict[dataSet]['maxF1'] = prfValResult[2]
+            modelDict[dataSet]['f1ValList'].append(t_prfValResult[2])
+            saver.save(sess, './modelSave/'+expName+'/'+m_name+'/modelSaved')
+            pickle.dump(trsPara, open('./modelSave/'+expName+'/'+m_name+'/trs_param.pickle','wb'))
+            
+            if ((epoch_idx/len(dataNames)) == early_stops[epoch_idx%len(dataNames)]):
+                modelDict[dataSet]['early_stop'] = True
+                modelDict[dataSet]['maxF1'] = t_prfValResult[2]
                 modelDict[dataSet]['stop_counter'] = 0
                 modelDict[dataSet]['maxF1idx'] = epoch_idx
                 modelDict[dataSet]['trs_param'] = trsPara 
                 modelDict[dataSet]['maxF1_x'] = test_x[:]
                 modelDict[dataSet]['maxF1_ans'] = test_ans[:]
                 modelDict[dataSet]['maxF1_len'] = test_len[:]
-                saver.save(sess, './modelSave/'+expName+'/'+dataSet+'/bestModel/modelSaved')
-                pickle.dump(modelDict[dataSet]['maxF1idx'], open('./modelSave/'+expName+'/'+dataSet+'/bestModel/maxF1idx.pickle','wb'))
-                pickle.dump(modelDict[dataSet]['trs_param'], open('./modelSave/'+expName+'/'+dataSet+'/bestModel/trs_param.pickle','wb'))
+                pickle.dump(modelDict[dataSet]['maxF1idx'], open('./modelSave/'+expName+'/'+dataSet+'/maxF1idx.pickle','wb'))
                 if args.pretrained != 0:
-                    modelDict[dataSet]['bestInouts'] = intOuts[m_test][:]
-            
-            modelDict[dataSet]['prevF1'] = prfValResult[2]
-            modelDict[dataSet]['f1ValList'].append(t_prfValResult[2])
-            predResultSaver[epoch_idx] = t_predictionResult
-            saver.save(sess, './modelSave/'+expName+'/'+m_name+'/modelSaved')
-            
-            if (prfValResult[2] + 0.005 <= modelDict[dataSet]['maxF1']) or (prfValResult[2] <= modelDict[dataSet]['prevF1']):
-                modelDict[dataSet]['stop_counter'] += 1
-
-            if modelDict[dataSet]['stop_counter'] == 6:
-                modelDict[dataSet]['early_stop'] = True
+                    pickle.dump(intOuts[m_test], open('./modelSave/'+expName+'/'+dataSet+'/bestInouts.pickle','wb'))
 
             for didx, dname in enumerate(dataNames):
                 if not modelDict[dname]['early_stop']:
@@ -264,12 +257,6 @@ if __name__ == '__main__':
            
             if esFlag:
                 break
-        
-        for dname in dataNames:
-            m_name = modelDict[dname]['m_name']         
-            pickle.dump(modelDict[dname]['args'], open('./modelSave/'+expName+'/'+m_name+'/bestModel/args.pickle','wb'))
-            if args.pretrained != 0:
-                pickle.dump(modelDict[dname]['bestInouts'], open('./modelSave/'+expName+'/'+dname+'/bestModel/bestInouts.pickle','wb'))
                 
     # Get test result for each model
     for dataSet in modelDict:
@@ -281,7 +268,7 @@ if __name__ == '__main__':
             tf.set_random_seed(seedV)
             sess.run(tf.global_variables_initializer())
             loader = tf.train.Saver(max_to_keep=10000)
-            loadpath = './modelSave/'+expName+'/'+m_name+'/bestModel/'
+            loadpath = './modelSave/'+expName+'/'+m_name+'/'
             
             if args.pretrained != 0:
                 intOuts = dict()
