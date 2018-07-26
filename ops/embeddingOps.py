@@ -55,11 +55,11 @@ def char_padding(inputs, voca_size, embedding_dim, wordMaxLen, charMaxLen):
         inputs_embed_len=list()
         
         for wordIdx, words in enumerate(sentence): #one sentence = list of words
-            words_padded = [0]*3 + words + [0]*(charMaxLen-len(words)) + [0]*3
+            words_padded = [0] + words + [0]*(charMaxLen-(1 + len(words)))
             inputs_embed.append(words_padded)
             inputs_embed_len.append(len(words))
             
-        paddings=[0]*len(words_padded)
+        paddings=[0]*charMaxLen
         inputs_embed=inputs_embed+[paddings]*(wordMaxLen - len(inputs_embed))
         sentences_embed.append(inputs_embed)
         sentences_embed_len.append(inputs_embed_len)
