@@ -277,7 +277,6 @@ if __name__ == '__main__':
                 intOuts = None
 
             trsPara = pickle.load(open(loadpath+'trs_param.pickle','rb'))
-            maxF1idx = pickle.load(open(loadpath+'maxF1idx.pickle','rb'))
             loader.restore(sess, tf.train.latest_checkpoint(loadpath)) 
             
             if modelDict[dataSet]['args'].tensorboard:
