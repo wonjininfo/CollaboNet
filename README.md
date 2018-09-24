@@ -3,11 +3,10 @@
 This project provides a neural network(bi-LSTM + CRF) approach for biomedical Named Entity Recognition.  
 Our implementation is based on the Tensorflow library on python.  
   
-* __TITLE__  :  CollaboNet: collaboration of deep neural networks for biomedical named entity recognition<br>
+* __TITLE__  :  <a href=https://arxiv.org/abs/1809.07950.pdf>CollaboNet: collaboration of deep neural networks for biomedical named entity recognition</a><br>
  \* *Accepted for CIKM 2018 workshop - ACM 12th International Workshop on Data and Text Mining in Biomedical Informatics (DTMBIO2018).* 
 * __AUTHOR__ :  Wonjin Yoon<sup>1!</sup>, Chan Ho So<sup>2!</sup>, Jinhyuk Lee<sup>1</sup> and Jaewoo Kang<sup>1\*</sup>
     * __Author details__  
-    <sup>\*</sup> Correspondence : kangj (at) korea.ac.kr  
     <sup>1</sup> Department of Computer Science and Engineering, Korea University  
     <sup>2</sup> Interdisciplinary Graduate Program in Bioinformatics, Korea University  
     <sup>!</sup> Equal contributor  
@@ -29,7 +28,7 @@ tensorflow-gpu 1.7.0
 
 ### License
 The code is distributed under [MIT license](./LICENSE.md).  <br>
-__Citeable paper will be posted at pre-print server shortly.__ <br>
+__Citeable paper can be found at pre-print server <a href=https://arxiv.org/abs/1809.07950.pdf>[here]</a>__ <br>
 <br>
 This software includes third party software.<br>
 See <a href=./License-thirdparty.txt>License-thirdparty.txt</a> for details.  
