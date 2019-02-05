@@ -36,7 +36,7 @@ See <a href=./License-thirdparty.txt>License-thirdparty.txt</a> for details.
 ## Model
 **[LEFT]** Character level word embedding using CNN and overview of Bidirectional LSTM with Conditional Random Field (BiLSTM-CRF).  
 **[RIGHT]** Structure of CollaboNet when Gene model act as a role of target model. Rhombus represents the CRF layer. Arrows show the flow of information when target model is training. Dashed arrows mean that information is not flowing when target model is under training.  
-![Model](https://s3-us-west-2.amazonaws.com/collabonet/model_tot.jpg)
+![Model](http://wonjin.info/file/model_tot.png)
 
 ## Data
 ### Train, Test Data
